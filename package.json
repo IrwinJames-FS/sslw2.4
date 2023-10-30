@@ -2,7 +2,7 @@
   "name": "sslw2.4",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "jest --watchAll",
