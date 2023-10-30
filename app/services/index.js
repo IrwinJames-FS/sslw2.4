@@ -10,39 +10,18 @@ require("dotenv").config();
  * @returns {string}
  */
 const qx = (query) => { 
+	if (!query) return '';
 	const q = Object.keys(query).filter(key => query[key] != undefined).map(key => `${key}=${query[key]}`)
 	return q.length > 0 ? `?${q.join('&')}`:'';
 }
 
 /**
- * Get a list of universities
- * @param {string | undefined} limit - total number of records to be returned
- * @param {string | undefined} offset - starting point for the query
- * @returns {Promise<Array<Object>, Error>}
+ * a method to translate queries
+ * @param {*} query 
+ * @returns 
  */
-const getUniversities = async (limit, offset) => await axios.get(`${process.env.apiUrl}${qx({limit, offset})}`);
-
-/**
- * Fetch universities matching the provided name
- * @param {string} name 
- * @param {string | undefined} limit - total number of records to be returned
- * @param {string | undefined} offset - starting point for the query
- * @returns {Promise<Array<Object>, Error>}
- */
-const getUniversitiesByName = async (name, limit, offset) => await axios.get(`${process.env.apiUrl}${qx({name, limit, offset})}`);
-
-/**
- * Get universities by country.
- * @param {string} country 
- * @param {string | undefined} limit - total number of records to be returned
- * @param {string | undefined} offset - starting point for the query
- * @returns {Promise<Array<Object>, Error>}
- */
-const getUniversitiesByCountry = async (country, limit, offset) => new axios.get(`${process.env.apiUrl}${qx({country, limit, offset})}`);
-
+const queryUniversities = async query => axios.get(`${process.env.apiUrl}${qx(query)}`);
 
 module.exports = {
-	getUniversities,
-	getUniversitiesByName,
-	getUniversitiesByCountry
+	queryUniversities
 }

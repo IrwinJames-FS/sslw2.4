@@ -1,4 +1,4 @@
-const { getUniversities, getUniversitiesByName, getUniversitiesByCountry } = require("../services");
+const { queryUniversities } = require("../services");
 const testUrlPromise = (description, promise) => test(description, () => promise
 .then(res => expect(res.status).toBe(200))
 .catch(err => {
@@ -6,11 +6,15 @@ const testUrlPromise = (description, promise) => test(description, () => promise
 }));
 
 describe("Testing Services", () => {
-	testUrlPromise("Testing Fetch all universities", getUniversities());
+	testUrlPromise("Testing Fetch all universities", queryUniversities());
 	
-	testUrlPromise("Testing Fetch University by name", getUniversitiesByName("full sail"));
+	testUrlPromise("Testing Fetch University by name", queryUniversities({name:"full sail"}));
 
-	testUrlPromise("Testing Fetch University by country", getUniversitiesByCountry("United States"));
+	testUrlPromise("Testing Fetch University by country", queryUniversities({country:"United States"}));
 
-	testUrlPromise("Testing Paginated Fetch", getUniversities(10, 0));
+	testUrlPromise("Testing Paginated Fetch", queryUniversities({limit:10, offset:0}));
+
+	testUrlPromise("Test Country & Name Fetch", queryUniversities({country:"united states", name:"tech"}));
+
+	testUrlPromise("Test Country & Name * Pagination fetch", queryUniversities({country: "united states", name:"tech", limit:10, offset: 10}));
 });
