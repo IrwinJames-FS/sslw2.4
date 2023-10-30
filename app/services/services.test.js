@@ -11,4 +11,6 @@ describe("Testing Services", () => {
 	testUrlPromise("Testing Fetch University by name", getUniversitiesByName("full sail"));
 
 	testUrlPromise("Testing Fetch University by country", getUniversitiesByCountry("United States"));
+
+	testUrlPromise("Testing Paginated Fetch", getUniversities(10, 0));
 });
