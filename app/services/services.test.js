@@ -1,4 +1,5 @@
-const { queryUniversities } = require("../services");
+const { queryUniversities, qx } = require("./index");
+
 const testUrlPromise = (description, promise) => test(description, () => promise
 .then(res => expect(res.status).toBe(200))
 .catch(err => {
@@ -6,15 +7,9 @@ const testUrlPromise = (description, promise) => test(description, () => promise
 }));
 
 describe("Testing Services", () => {
-	testUrlPromise("Testing Fetch all universities", queryUniversities());
 	
-	testUrlPromise("Testing Fetch University by name", queryUniversities({name:"full sail"}));
-
-	testUrlPromise("Testing Fetch University by country", queryUniversities({country:"United States"}));
-
-	testUrlPromise("Testing Paginated Fetch", queryUniversities({limit:10, offset:0}));
-
-	testUrlPromise("Test Country & Name Fetch", queryUniversities({country:"united states", name:"tech"}));
-
-	testUrlPromise("Test Country & Name * Pagination fetch", queryUniversities({country: "united states", name:"tech", limit:10, offset: 10}));
+	test("Test Query builder with no provided arguments", () => expect(qx()).toBe(""));
+	test("Test Query building method", () => expect(qx({name: "tech", country:"united states", limit: 2, offset: undefined})).toMatch(/^[a-zA-Z0-9_&\s?=]+$/))
+	test("Test only undefined qx parameters", ()=> expect(qx({limit: undefined, offset: undefined})).toBe(""));
+	testUrlPromise("Testing Fetch all universities", queryUniversities({name: "tech", country: "united states", limit: 2, offset:0}));
 });

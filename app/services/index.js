@@ -23,5 +23,6 @@ const qx = (query) => {
 const queryUniversities = async query => axios.get(`${process.env.apiUrl}${qx(query)}`);
 
 module.exports = {
+	qx,
 	queryUniversities
 }
